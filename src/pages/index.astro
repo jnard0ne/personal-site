@@ -1,0 +1,135 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const allProjects = await getCollection("projects");
+const activeProjects = allProjects
+  .filter((p) => p.data.status === "active")
+  .slice(0, 3);
+
+const allPosts = await getCollection("blog", ({ data }) => !data.draft);
+const recentPosts = allPosts
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+---
+
+<BaseLayout title="John Nardone">
+  <!-- About -->
+  <section class="mb-16">
+    <h1 class="text-3xl font-bold mb-4">Hi, I'm John</h1>
+    <div class="text-stone-600 space-y-3 leading-relaxed">
+      <p>
+        I'm a data scientist at Meta, where I work on messaging products across the
+        Facebook app and Messenger. My focus is the intersection of data and
+        engineering — working closely with product and infrastructure teams to
+        improve performance, reliability, and the end user experience through data.
+      </p>
+      <p>
+        I studied econometrics and found data science early in my career at the
+        sweet spot between statistics and software. Before Meta I spent time at
+        Deloitte and an early-stage startup, and along the way did a stint on the
+        Reality Labs team supporting the Quest headsets.
+      </p>
+      <p>
+        Outside of work I spend as much time as I can in the mountains — hiking,
+        camping, and exploring national parks. I'm an avid cyclist and am currently
+        training for my first triathlon, which has pulled me into running and
+        swimming in ways I didn't expect.
+      </p>
+    </div>
+  </section>
+
+  <!-- Recent Projects -->
+  {
+    activeProjects.length > 0 && (
+      <section class="mb-16">
+        <div class="flex items-baseline justify-between mb-6">
+          <h2 class="text-xl font-semibold">Projects</h2>
+          <a href="/projects" class="text-sm text-stone-500 hover:text-stone-900 transition-colors">
+            View all →
+          </a>
+        </div>
+        <ul class="space-y-6">
+          {activeProjects.map((project) => (
+            <li>
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <h3 class="font-medium mb-1">
+                    {project.data.url ? (
+                      <a
+                        href={project.data.url}
+                        class="hover:text-stone-600 transition-colors"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {project.data.title}
+                      </a>
+                    ) : (
+                      project.data.title
+                    )}
+                  </h3>
+                  <p class="text-sm text-stone-500">{project.data.description}</p>
+                  {project.data.tags.length > 0 && (
+                    <div class="flex gap-2 mt-2">
+                      {project.data.tags.map((tag) => (
+                        <span class="text-xs bg-stone-100 text-stone-600 px-2 py-0.5 rounded">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                {project.data.repo && (
+                  <a
+                    href={project.data.repo}
+                    class="text-xs text-stone-400 hover:text-stone-700 transition-colors whitespace-nowrap"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    GitHub →
+                  </a>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  <!-- Recent Posts -->
+  {
+    recentPosts.length > 0 && (
+      <section>
+        <div class="flex items-baseline justify-between mb-6">
+          <h2 class="text-xl font-semibold">Recent Posts</h2>
+          <a href="/blog" class="text-sm text-stone-500 hover:text-stone-900 transition-colors">
+            View all →
+          </a>
+        </div>
+        <ul class="space-y-5">
+          {recentPosts.map((post) => (
+            <li class="flex items-baseline justify-between gap-4">
+              <a
+                href={`/blog/${post.id}`}
+                class="font-medium hover:text-stone-600 transition-colors"
+              >
+                {post.data.title}
+              </a>
+              <time
+                datetime={post.data.date.toISOString()}
+                class="text-sm text-stone-400 whitespace-nowrap"
+              >
+                {post.data.date.toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })}
+              </time>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+</BaseLayout>

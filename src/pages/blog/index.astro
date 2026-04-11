@@ -1,0 +1,63 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const posts = await getCollection("blog", ({ data }) => !data.draft);
+const sorted = posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+// Group by year
+const byYear = sorted.reduce<Record<number, typeof sorted>>((acc, post) => {
+  const year = post.data.date.getFullYear();
+  if (!acc[year]) acc[year] = [];
+  acc[year].push(post);
+  return acc;
+}, {});
+
+const years = Object.keys(byYear)
+  .map(Number)
+  .sort((a, b) => b - a);
+---
+
+<BaseLayout title="Blog — John Nardone" description="Writing on analytics, AI, and the evolving data landscape">
+  <h1 class="text-3xl font-bold mb-10">Blog</h1>
+
+  {
+    years.length === 0 ? (
+      <p class="text-stone-500">No posts yet. Check back soon.</p>
+    ) : (
+      <div class="space-y-10">
+        {years.map((year) => (
+          <section>
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-stone-400 mb-5">
+              {year}
+            </h2>
+            <ul class="space-y-4">
+              {byYear[year].map((post) => (
+                <li class="flex items-baseline justify-between gap-4">
+                  <div>
+                    <a
+                      href={`/blog/${post.id}`}
+                      class="font-medium hover:text-stone-600 transition-colors"
+                    >
+                      {post.data.title}
+                    </a>
+                    <p class="text-sm text-stone-500 mt-0.5">{post.data.description}</p>
+                  </div>
+                  <time
+                    datetime={post.data.date.toISOString()}
+                    class="text-sm text-stone-400 whitespace-nowrap"
+                  >
+                    {post.data.date.toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </time>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+    )
+  }
+</BaseLayout>

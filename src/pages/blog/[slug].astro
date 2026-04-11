@@ -1,0 +1,46 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout title={`${post.data.title} — John Nardone`} description={post.data.description}>
+  <article>
+    <header class="mb-10">
+      <time
+        datetime={post.data.date.toISOString()}
+        class="text-sm text-stone-400"
+      >
+        {
+          post.data.date.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })
+        }
+      </time>
+      <h1 class="text-3xl font-bold mt-2 mb-3">{post.data.title}</h1>
+      <p class="text-stone-500">{post.data.description}</p>
+    </header>
+
+    <div class="prose prose-stone max-w-none">
+      <Content />
+    </div>
+  </article>
+
+  <div class="mt-12 pt-6 border-t border-cream-200">
+    <a href="/blog" class="text-sm text-stone-500 hover:text-stone-900 transition-colors">
+      ← Back to blog
+    </a>
+  </div>
+</BaseLayout>
