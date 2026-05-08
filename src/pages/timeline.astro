@@ -15,93 +15,56 @@ interface TimelineEvent {
   category: Category;
 }
 
-// Mock data — placeholders in [brackets] should be replaced with real values.
 const events: TimelineEvent[] = [
   {
-    id: "msg-infra-lead",
-    start: "2025-01",
-    ongoing: true,
-    title: "Tech Lead, Messaging Client Infra DS",
-    subtitle: "Meta — Facebook App Org",
-    location: "San Francisco, CA",
-    category: "work",
-    description:
-      "Tech-leading the messaging client infra DS team. Mentoring 3 junior ICs across privacy & security, identity, and core navigation. Overseeing experimentation for a complex back-end stack migration spanning dozens of engineers.",
-  },
-  {
-    id: "messenger",
-    start: "2023-01",
-    end: "2024-12",
-    title: "Product Data Scientist — Messenger",
-    subtitle: "Meta — Reality Labs / Messenger",
-    location: "San Francisco, CA",
-    category: "work",
-    description:
-      "Supported global rollouts of community messaging, end-to-end encrypted 1:1 chats, and the Messenger app redesign. Designed novel experimentation methodology for heterogeneous populations and drove the E2EE migration to completion in 6 months.",
-  },
-  {
-    id: "quest-for-business",
-    start: "2022-09",
-    end: "2022-12",
-    title: "GTM Analytics — Quest for Business",
-    subtitle: "Meta — Reality Labs",
-    location: "San Francisco, CA",
-    category: "work",
-    description:
-      "Bridged fragmented data infrastructure between marketing and sales CRM during an org transition. Analysis directly led to the reallocation of $60M in marketing budget and a full restructuring of the marketing team.",
-  },
-  {
-    id: "portal",
+    id: "meta",
     start: "2021-07",
-    end: "2022-08",
-    title: "Product Data Scientist — Portal",
-    subtitle: "Meta — Reality Labs",
+    ongoing: true,
+    title: "Product Data Scientist",
+    subtitle: "Meta",
     location: "San Francisco, CA",
     category: "work",
     description:
-      "Supported the launch of Portal 2. Battery analysis served as the basis for marketing claims; built the post-launch battery and thermal monitoring frameworks.",
+      "Started in Reality Labs supporting Portal 2 and Quest for Business analytics, then moved to Messenger for major rollouts including community messaging, end-to-end encryption, and the app redesign. Currently tech-leading the messaging client infra DS team.",
   },
   {
     id: "move-sf",
-    start: "2021-07",
+    start: "2019-02",
     title: "Moved to San Francisco",
     location: "San Francisco, CA",
     category: "move",
     description:
-      "Relocated to the Bay Area to join Meta. [Add a sentence about the move if you'd like.]",
-  },
-  {
-    id: "gatech",
-    start: "2018-08",
-    end: "2021-05",
-    title: "M.S. Computer Science",
-    subtitle: "Georgia Institute of Technology",
-    location: "Online (OMSCS)",
-    category: "education",
-    description:
-      "Machine Learning specialization. Coursework: Database Architecture & Design, Computer Networking, Cyber-Physical Systems, Software Architecture & Design.",
+      "Transferred with Deloitte from the Boston office to San Francisco.",
   },
   {
     id: "deloitte",
-    start: "2017-01",
-    end: "2021-06",
-    title: "Data Science Consultant",
+    start: "2017-09",
+    end: "2021-07",
+    title: "Data Scientist",
     subtitle: "Deloitte Consulting — Strategy & Analytics",
-    location: "[City, ST]",
+    location: "Boston, MA → San Francisco, CA",
     category: "work",
     description:
-      "Led and trained a team of 8 engineers delivering dashboards, analyses, and a custom data-processing application at a leading social network company. Recognized internally as a machine learning SME; promoted one year early.",
+      "Joined as an Analyst, promoted to Consultant, then Senior Consultant. Led and trained a team of 8 engineers delivering dashboards, analyses, and a custom data-processing application at a leading social network company. Recognized internally as a machine learning SME; promoted one year early.",
+  },
+  {
+    id: "move-boston",
+    start: "2017-09",
+    title: "Moved to Boston",
+    location: "Boston, MA",
+    category: "move",
+    description: "Relocated to start at Deloitte's Boston office.",
   },
   {
     id: "search-discovery",
     start: "2016-06",
-    end: "2017-01",
+    end: "2017-09",
     title: "Digital Analyst",
     subtitle: "Search Discovery",
-    location: "[City, ST]",
+    location: "Atlanta, GA",
     category: "work",
     description:
-      "Lead Analyst on Howard Hughes and Clorox engagements after just 6 months. Implemented JS-based tag management, configured BI dashboards, and trained clients on Adobe Analytics and GA 360.",
+      "Implemented JS-based tag management, configured BI dashboards, and trained clients on Adobe Analytics and GA 360.",
   },
   {
     id: "emory",
@@ -112,7 +75,18 @@ const events: TimelineEvent[] = [
     location: "Atlanta, GA",
     category: "education",
     description:
-      "Graduated in 3 years with a 3.8 GPA while working part-time. Coursework spanned econometrics, forecasting, multivariable calc, and statistics. Also completed Emory's Big Data Analytics Certification (2017) and the Goizueta Summer Business Institute (2016).",
+      "Majored in Economics. Graduated in 3 years with a 3.8 GPA while working part-time. Coursework spanned econometrics, forecasting, multivariable calc, and statistics. Also completed Emory's Big Data Analytics Certification (2017) and the Goizueta Summer Business Institute (2016).",
+  },
+  {
+    id: "hype-socks",
+    start: "2013-09",
+    end: "2015-08",
+    title: "Head of Internet Sales",
+    subtitle: "Hype Socks",
+    location: "Atlanta, GA",
+    category: "work",
+    description:
+      "Joined during my first semester at Emory. Led customer acquisition, segmentation, and outreach at an early e-commerce startup. Promoted to Head of Internet Sales; trained and led a team of up to 12 marketers.",
   },
   {
     id: "move-atl",
@@ -120,36 +94,25 @@ const events: TimelineEvent[] = [
     title: "Moved to Atlanta",
     location: "Atlanta, GA",
     category: "move",
-    description: "Started at Emory University. [Optional note about the move.]",
-  },
-  {
-    id: "hype-socks",
-    start: "2013-06",
-    end: "2015-08",
-    title: "Head of Internet Sales",
-    subtitle: "Hype Socks",
-    location: "[City, ST]",
-    category: "work",
-    description:
-      "Led customer acquisition, segmentation, and outreach at an early e-commerce startup. Promoted to Head of Internet Sales; trained and led a team of up to 12 marketers.",
+    description: "Started at Emory University.",
   },
   {
     id: "highschool",
     start: "2009-09",
     end: "2013-06",
-    title: "[High School Name]",
+    title: "Fairfield Warde High School",
     subtitle: "High School",
-    location: "[City, ST]",
+    location: "Fairfield, CT",
     category: "education",
-    description: "[Add a line or two about high school — clubs, sports, anything memorable.]",
   },
   {
     id: "birth",
-    start: "1995-01-01",
+    start: "1995-07",
     title: "Born",
-    location: "[Hometown, ST]",
+    location: "Norwalk, CT",
     category: "life",
-    description: "[Replace with your real birth date and a short note if you'd like.]",
+    description:
+      "Born at Norwalk Hospital to Mary and John Nardone. Grew up first in Stamford, then Fairfield, CT.",
   },
 ];
 
