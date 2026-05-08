@@ -31,6 +31,7 @@ Content is managed through Astro's Content Layer API. Schemas are defined in `sr
 - `/projects` — full project list grouped by status
 - `/blog` — post listing grouped by year
 - `/blog/[slug]` — individual post rendered via `render()` from `astro:content`
+- `/timeline` — interactive vertical timeline of life events, education, moves, and work. Event data is currently hardcoded in `src/pages/timeline.astro` as a `TimelineEvent[]`; categories are `life | education | move | work`. Filter chips and expand-on-click use a small inline `<script>` (the only client-side JS on the site).
 
 The slug for blog posts matches the filename (without `.md`).
 
