@@ -55,6 +55,14 @@ function isActive(path: string) {
               Blog
             </a>
           </li>
+          <li>
+            <a
+              href="/timeline"
+              class={`hover:text-stone-700 transition-colors ${isActive("/timeline") ? "font-medium text-stone-900" : "text-stone-500"}`}
+            >
+              Timeline
+            </a>
+          </li>
         </ul>
       </nav>
     </header>

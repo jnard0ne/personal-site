@@ -1,0 +1,344 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+type Category = "life" | "education" | "move" | "work";
+
+interface TimelineEvent {
+  id: string;
+  start: string;
+  end?: string;
+  ongoing?: boolean;
+  title: string;
+  subtitle?: string;
+  location?: string;
+  description?: string;
+  category: Category;
+}
+
+// Mock data — placeholders in [brackets] should be replaced with real values.
+const events: TimelineEvent[] = [
+  {
+    id: "msg-infra-lead",
+    start: "2025-01",
+    ongoing: true,
+    title: "Tech Lead, Messaging Client Infra DS",
+    subtitle: "Meta — Facebook App Org",
+    location: "San Francisco, CA",
+    category: "work",
+    description:
+      "Tech-leading the messaging client infra DS team. Mentoring 3 junior ICs across privacy & security, identity, and core navigation. Overseeing experimentation for a complex back-end stack migration spanning dozens of engineers.",
+  },
+  {
+    id: "messenger",
+    start: "2023-01",
+    end: "2024-12",
+    title: "Product Data Scientist — Messenger",
+    subtitle: "Meta — Reality Labs / Messenger",
+    location: "San Francisco, CA",
+    category: "work",
+    description:
+      "Supported global rollouts of community messaging, end-to-end encrypted 1:1 chats, and the Messenger app redesign. Designed novel experimentation methodology for heterogeneous populations and drove the E2EE migration to completion in 6 months.",
+  },
+  {
+    id: "quest-for-business",
+    start: "2022-09",
+    end: "2022-12",
+    title: "GTM Analytics — Quest for Business",
+    subtitle: "Meta — Reality Labs",
+    location: "San Francisco, CA",
+    category: "work",
+    description:
+      "Bridged fragmented data infrastructure between marketing and sales CRM during an org transition. Analysis directly led to the reallocation of $60M in marketing budget and a full restructuring of the marketing team.",
+  },
+  {
+    id: "portal",
+    start: "2021-07",
+    end: "2022-08",
+    title: "Product Data Scientist — Portal",
+    subtitle: "Meta — Reality Labs",
+    location: "San Francisco, CA",
+    category: "work",
+    description:
+      "Supported the launch of Portal 2. Battery analysis served as the basis for marketing claims; built the post-launch battery and thermal monitoring frameworks.",
+  },
+  {
+    id: "move-sf",
+    start: "2021-07",
+    title: "Moved to San Francisco",
+    location: "San Francisco, CA",
+    category: "move",
+    description:
+      "Relocated to the Bay Area to join Meta. [Add a sentence about the move if you'd like.]",
+  },
+  {
+    id: "gatech",
+    start: "2018-08",
+    end: "2021-05",
+    title: "M.S. Computer Science",
+    subtitle: "Georgia Institute of Technology",
+    location: "Online (OMSCS)",
+    category: "education",
+    description:
+      "Machine Learning specialization. Coursework: Database Architecture & Design, Computer Networking, Cyber-Physical Systems, Software Architecture & Design.",
+  },
+  {
+    id: "deloitte",
+    start: "2017-01",
+    end: "2021-06",
+    title: "Data Science Consultant",
+    subtitle: "Deloitte Consulting — Strategy & Analytics",
+    location: "[City, ST]",
+    category: "work",
+    description:
+      "Led and trained a team of 8 engineers delivering dashboards, analyses, and a custom data-processing application at a leading social network company. Recognized internally as a machine learning SME; promoted one year early.",
+  },
+  {
+    id: "search-discovery",
+    start: "2016-06",
+    end: "2017-01",
+    title: "Digital Analyst",
+    subtitle: "Search Discovery",
+    location: "[City, ST]",
+    category: "work",
+    description:
+      "Lead Analyst on Howard Hughes and Clorox engagements after just 6 months. Implemented JS-based tag management, configured BI dashboards, and trained clients on Adobe Analytics and GA 360.",
+  },
+  {
+    id: "emory",
+    start: "2013-08",
+    end: "2016-05",
+    title: "B.A. Economics",
+    subtitle: "Emory University",
+    location: "Atlanta, GA",
+    category: "education",
+    description:
+      "Graduated in 3 years with a 3.8 GPA while working part-time. Coursework spanned econometrics, forecasting, multivariable calc, and statistics. Also completed Emory's Big Data Analytics Certification (2017) and the Goizueta Summer Business Institute (2016).",
+  },
+  {
+    id: "move-atl",
+    start: "2013-08",
+    title: "Moved to Atlanta",
+    location: "Atlanta, GA",
+    category: "move",
+    description: "Started at Emory University. [Optional note about the move.]",
+  },
+  {
+    id: "hype-socks",
+    start: "2013-06",
+    end: "2015-08",
+    title: "Head of Internet Sales",
+    subtitle: "Hype Socks",
+    location: "[City, ST]",
+    category: "work",
+    description:
+      "Led customer acquisition, segmentation, and outreach at an early e-commerce startup. Promoted to Head of Internet Sales; trained and led a team of up to 12 marketers.",
+  },
+  {
+    id: "highschool",
+    start: "2009-09",
+    end: "2013-06",
+    title: "[High School Name]",
+    subtitle: "High School",
+    location: "[City, ST]",
+    category: "education",
+    description: "[Add a line or two about high school — clubs, sports, anything memorable.]",
+  },
+  {
+    id: "birth",
+    start: "1995-01-01",
+    title: "Born",
+    location: "[Hometown, ST]",
+    category: "life",
+    description: "[Replace with your real birth date and a short note if you'd like.]",
+  },
+];
+
+const sorted = [...events].sort(
+  (a, b) => new Date(b.start).getTime() - new Date(a.start).getTime()
+);
+
+const categoryMeta: Record<
+  Category,
+  { label: string; pill: string; dot: string; ring: string }
+> = {
+  life: {
+    label: "Life",
+    pill: "bg-amber-100 text-amber-900 border-amber-200",
+    dot: "bg-amber-500",
+    ring: "ring-amber-200",
+  },
+  education: {
+    label: "Education",
+    pill: "bg-emerald-100 text-emerald-900 border-emerald-200",
+    dot: "bg-emerald-600",
+    ring: "ring-emerald-200",
+  },
+  move: {
+    label: "Move",
+    pill: "bg-sky-100 text-sky-900 border-sky-200",
+    dot: "bg-sky-600",
+    ring: "ring-sky-200",
+  },
+  work: {
+    label: "Work",
+    pill: "bg-stone-200 text-stone-900 border-stone-300",
+    dot: "bg-stone-700",
+    ring: "ring-stone-300",
+  },
+};
+
+function fmt(iso: string) {
+  const [year, month] = iso.split("-");
+  const d = new Date(Number(year), Number(month ?? 1) - 1, 1);
+  return d.toLocaleDateString("en-US", { year: "numeric", month: "short" });
+}
+
+function fmtRange(ev: TimelineEvent) {
+  const start = fmt(ev.start);
+  if (ev.ongoing) return `${start} — Present`;
+  if (ev.end) return `${start} — ${fmt(ev.end)}`;
+  return start;
+}
+---
+
+<BaseLayout title="Timeline — John Nardone" description="A visual timeline of John's life, education, moves, and work.">
+  <section class="mb-10">
+    <h1 class="text-3xl font-bold mb-3">Timeline</h1>
+    <p class="text-stone-600 leading-relaxed">
+      A running log of major chapters — schools, moves, and work. Click any
+      entry to expand. Filter by category below.
+    </p>
+  </section>
+
+  <!-- Filter chips -->
+  <div
+    id="timeline-filters"
+    class="flex flex-wrap gap-2 mb-10"
+    role="group"
+    aria-label="Filter timeline by category"
+  >
+    <button
+      type="button"
+      data-filter="all"
+      class="filter-chip active text-xs px-3 py-1.5 rounded-full border border-stone-300 bg-stone-900 text-cream-50 transition-colors"
+      aria-pressed="true"
+    >
+      All
+    </button>
+    {
+      (Object.keys(categoryMeta) as Category[]).map((cat) => (
+        <button
+          type="button"
+          data-filter={cat}
+          class={`filter-chip text-xs px-3 py-1.5 rounded-full border transition-colors hover:bg-stone-100 ${categoryMeta[cat].pill}`}
+          aria-pressed="false"
+        >
+          {categoryMeta[cat].label}
+        </button>
+      ))
+    }
+  </div>
+
+  <!-- Timeline -->
+  <ol id="timeline" class="relative border-l border-stone-300 pl-8 space-y-8">
+    {
+      sorted.map((ev) => {
+        const meta = categoryMeta[ev.category];
+        return (
+          <li
+            class="timeline-item relative"
+            data-category={ev.category}
+          >
+            <span
+              class={`absolute -left-[37px] top-1.5 h-3 w-3 rounded-full ring-4 ring-cream-50 ${meta.dot}`}
+              aria-hidden="true"
+            />
+            <details class="group">
+              <summary class="cursor-pointer list-none flex items-baseline justify-between gap-4 hover:text-stone-700 transition-colors">
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-2 mb-1 flex-wrap">
+                    <span
+                      class={`text-[10px] uppercase tracking-wide font-medium px-2 py-0.5 rounded-full border ${meta.pill}`}
+                    >
+                      {meta.label}
+                    </span>
+                    <time class="text-xs text-stone-500">{fmtRange(ev)}</time>
+                  </div>
+                  <h3 class="font-medium text-stone-900">{ev.title}</h3>
+                  {ev.subtitle && (
+                    <p class="text-sm text-stone-600">{ev.subtitle}</p>
+                  )}
+                  {ev.location && (
+                    <p class="text-xs text-stone-400 mt-0.5">{ev.location}</p>
+                  )}
+                </div>
+                <span
+                  class="text-stone-400 text-xs transition-transform group-open:rotate-90 flex-shrink-0"
+                  aria-hidden="true"
+                >
+                  ›
+                </span>
+              </summary>
+              {ev.description && (
+                <p class="mt-3 text-sm text-stone-600 leading-relaxed">
+                  {ev.description}
+                </p>
+              )}
+            </details>
+          </li>
+        );
+      })
+    }
+  </ol>
+</BaseLayout>
+
+<script>
+  const filters = document.getElementById("timeline-filters");
+  const timeline = document.getElementById("timeline");
+  if (filters && timeline) {
+    const chips = filters.querySelectorAll<HTMLButtonElement>(".filter-chip");
+    const items = timeline.querySelectorAll<HTMLLIElement>(".timeline-item");
+    const active = new Set<string>(["all"]);
+
+    function render() {
+      const showAll = active.has("all");
+      items.forEach((item) => {
+        const cat = item.dataset.category ?? "";
+        const visible = showAll || active.has(cat);
+        item.style.display = visible ? "" : "none";
+      });
+      chips.forEach((chip) => {
+        const f = chip.dataset.filter ?? "";
+        const isActive = active.has(f);
+        chip.classList.toggle("active", isActive);
+        chip.setAttribute("aria-pressed", isActive ? "true" : "false");
+        if (f === "all") {
+          chip.classList.toggle("bg-stone-900", isActive);
+          chip.classList.toggle("text-cream-50", isActive);
+          chip.classList.toggle("bg-cream-50", !isActive);
+          chip.classList.toggle("text-stone-700", !isActive);
+        } else {
+          chip.style.opacity = isActive || showAll ? "1" : "0.45";
+        }
+      });
+    }
+
+    chips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        const f = chip.dataset.filter ?? "";
+        if (f === "all") {
+          active.clear();
+          active.add("all");
+        } else {
+          active.delete("all");
+          if (active.has(f)) active.delete(f);
+          else active.add(f);
+          if (active.size === 0) active.add("all");
+        }
+        render();
+      });
+    });
+
+    render();
+  }
+</script>
